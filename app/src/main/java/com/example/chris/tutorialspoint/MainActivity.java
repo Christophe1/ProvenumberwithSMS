@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
@@ -19,13 +20,16 @@ import android.widget.Toast;
 
 import com.example.tutorialspoint.R;
 
+import static com.example.tutorialspoint.R.id.editText2;
+
 public class MainActivity extends Activity {
     Button sendBtn;
     EditText txtphoneNo;
-    EditText phoneNoCheck;
+    EditText editText2;
 
     String phoneNo;
     String origNumber;
+    //String phoneNoCheck;
 
     private BroadcastReceiver receiver;
 
@@ -36,56 +40,61 @@ public class MainActivity extends Activity {
 
         sendBtn = (Button) findViewById(R.id.btnSendSMS);
         txtphoneNo = (EditText) findViewById(R.id.editText);
-        phoneNoCheck = (EditText) findViewById(R.id.editText);
+        //phoneNoCheck = (EditText) findViewById(R.id.editText2);
 
-//      when the form loads, check Edittext2 to see if phoneNo is in there
-        //  if it is in there, proceed to PopulistoContactList activity
+        //  when the form loads, check to see if phoneNo is in there
+        SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        String phoneNoCheck = sharedPreferences.getString("phonenumber",phoneNo);
+        //editText2.setText(phoneNoCheck);
 
-        sendBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                sendSMSMessage();
-            }
-        });
+        if (phoneNoCheck == null) {
+        //  if it is in there, start the new Activity
+            Intent myIntent = new Intent(MainActivity.this, PopulistoContactList.class);
+            MainActivity.this.startActivity(myIntent);
 
-        IntentFilter filter = new IntentFilter();
+        }
+
+        //if it is not in there, proceed with phone number verification
+
+        else {
+            sendBtn.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    sendSMSMessage();
+                }
+            });
+
+            IntentFilter filter = new IntentFilter();
 //        the thing we're looking out for is received SMSs
-        filter.addAction("android.provider.Telephony.SMS_RECEIVED");
+            filter.addAction("android.provider.Telephony.SMS_RECEIVED");
 
-        receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent)
+            receiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent)
 
-            {
-                Bundle extras = intent.getExtras();
+                {
+                    Bundle extras = intent.getExtras();
 
-                if (extras == null)
-                    return;
+                    if (extras == null)
+                        return;
 
-                Object[] pdus = (Object[]) extras.get("pdus");
-                SmsMessage msg = SmsMessage.createFromPdu((byte[]) pdus[0]);
-                 origNumber = msg.getOriginatingAddress();
+                    Object[] pdus = (Object[]) extras.get("pdus");
+                    SmsMessage msg = SmsMessage.createFromPdu((byte[]) pdus[0]);
+                    origNumber = msg.getOriginatingAddress();
 
-                System.out.println(origNumber);
+                    System.out.println(origNumber);
 //                System.out.println("test test");
-                if(phoneNo != null) {
-                    System.out.println(phoneNo);
+                    if (phoneNo != null) {
+                        System.out.println(phoneNo);
+                    }
+
+                    Toast.makeText(getApplicationContext(), "Originating number" + origNumber, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Sent to number" + phoneNo, Toast.LENGTH_LONG).show();
+
                 }
 
-                Toast.makeText(getApplicationContext(), "Originating number" + origNumber, Toast.LENGTH_LONG).show();
-                Toast.makeText(getApplicationContext(), "Sent to number" + phoneNo, Toast.LENGTH_LONG).show();
-
-
-                if (origNumber.equals(phoneNo)) {
-
-                    Toast.makeText(getApplicationContext(), "Correct, they're the same.!", Toast.LENGTH_LONG).show();
-                    //start the new Activity
-                    Intent myIntent = new Intent(MainActivity.this, PopulistoContactList.class);
-                    MainActivity.this.startActivity(myIntent);
-                }
-            }
-
-        };
-        registerReceiver(receiver, filter);
+            };
+            registerReceiver(receiver, filter);
+        }
     }
 
 
@@ -93,13 +102,27 @@ public class MainActivity extends Activity {
     protected void sendSMSMessage() {
         Log.i("Send SMS", "");
         phoneNo = txtphoneNo.getText().toString();
+
+        //this is the SMS received
         String message = "Verification test code. Please ignore this message. Thank you.";
-//        String message = txtMessage.getText().toString();
 
         try {
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(phoneNo, null, message, null, null);
             Toast.makeText(getApplicationContext(), "SMS sent.", Toast.LENGTH_LONG).show();
+
+            //if originating phone number is the same as the sent to number, save
+            //and go to the next activity
+            if (origNumber.equals(phoneNo)) {
+                //save the phone number
+                SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("phonenumber", phoneNo);
+                editor.commit();
+
+                Intent myIntent = new Intent(MainActivity.this, PopulistoContactList.class);
+                MainActivity.this.startActivity(myIntent);
+            }
         }
 
         catch (Exception e) {
