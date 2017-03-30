@@ -20,16 +20,12 @@ import android.widget.Toast;
 
 import com.example.tutorialspoint.R;
 
-import static com.example.tutorialspoint.R.id.editText2;
-
 public class MainActivity extends Activity {
     Button sendBtn;
     EditText txtphoneNo;
-    EditText editText2;
 
     String phoneNo;
     String origNumber;
-    //String phoneNoCheck;
 
     private BroadcastReceiver receiver;
 
@@ -40,23 +36,14 @@ public class MainActivity extends Activity {
 
         sendBtn = (Button) findViewById(R.id.btnSendSMS);
         txtphoneNo = (EditText) findViewById(R.id.editText);
-        //phoneNoCheck = (EditText) findViewById(R.id.editText2);
 
         //  when the form loads, check to see if phoneNo is in there
         SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-        String phoneNoCheck = sharedPreferences.getString("phonenumber",phoneNo);
-        //editText2.setText(phoneNoCheck);
+        String phoneNoCheck = sharedPreferences.getString("phonenumber","");
 
-        if (phoneNoCheck == null) {
-        //  if it is in there, start the new Activity
-            Intent myIntent = new Intent(MainActivity.this, PopulistoContactList.class);
-            MainActivity.this.startActivity(myIntent);
+        if ( phoneNoCheck == null || phoneNoCheck.equals("") ) {
+            //  if it is not in there, go through verification
 
-        }
-
-        //if it is not in there, proceed with phone number verification
-
-        else {
             sendBtn.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     sendSMSMessage();
@@ -81,12 +68,6 @@ public class MainActivity extends Activity {
                     SmsMessage msg = SmsMessage.createFromPdu((byte[]) pdus[0]);
                     origNumber = msg.getOriginatingAddress();
 
-                    System.out.println(origNumber);
-//                System.out.println("test test");
-                    if (phoneNo != null) {
-                        System.out.println(phoneNo);
-                    }
-
                     Toast.makeText(getApplicationContext(), "Originating number" + origNumber, Toast.LENGTH_LONG).show();
                     Toast.makeText(getApplicationContext(), "Sent to number" + phoneNo, Toast.LENGTH_LONG).show();
 
@@ -95,12 +76,21 @@ public class MainActivity extends Activity {
             };
             registerReceiver(receiver, filter);
         }
+            else {
+            // if it is registered then start the next activity
+            Intent myIntent = new Intent(MainActivity.this, PopulistoContactList.class);
+            myIntent.putExtra("keyName", phoneNoCheck);
+            MainActivity.this.startActivity(myIntent);
+
+
+        }
+
+
     }
 
 
 
     protected void sendSMSMessage() {
-        Log.i("Send SMS", "");
         phoneNo = txtphoneNo.getText().toString();
 
         //this is the SMS received
