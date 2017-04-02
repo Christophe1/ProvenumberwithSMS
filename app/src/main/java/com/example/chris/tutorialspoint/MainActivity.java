@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+// this is the php file name where to insert into the database
     private static final String REGISTER_URL = "http://www.populisto.com/insert.php";
 
     public static final String KEY_PHONENUMBER = "phonenumber";
