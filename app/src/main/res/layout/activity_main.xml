@@ -38,7 +38,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/txtphoneNo"
         android:hint="Enter Phone Number"
         android:phoneNumber="true"
         android:textColorHint="#ff87ff09"
@@ -55,15 +55,6 @@
         <!--android:textColorHint="#ff87ff09"-->
         <!--android:hint="Enter SMS" />-->
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Send Sms"
-        android:id="@+id/btnSendSMS"
-        android:layout_below="@+id/editText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,5 +65,24 @@
         android:layout_alignEnd="@+id/btnSendSMS"
         android:layout_marginBottom="11dp"
         android:id="@+id/editText2" />
+
+    <Button
+        android:text="Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/editText2"
+        android:layout_alignRight="@+id/editText2"
+        android:layout_alignEnd="@+id/editText2"
+        android:layout_marginBottom="32dp"
+        android:id="@+id/buttonRegister" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Sms"
+        android:id="@+id/btnSendSMS"
+        android:layout_above="@+id/buttonRegister"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="26dp" />
 
 </RelativeLayout>
