@@ -116,7 +116,7 @@ public class MainActivity extends Activity {
         }
 
         catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "SMS failed, please try again.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Looks like the number you inputted is not correct, please try again.", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }
