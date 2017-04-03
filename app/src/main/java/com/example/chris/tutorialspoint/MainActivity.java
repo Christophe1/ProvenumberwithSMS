@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.provider.Telephony;
+import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
@@ -18,9 +19,27 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.tutorialspoint.R;
 
-public class MainActivity extends Activity {
+import java.util.HashMap;
+import java.util.Map;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    // this is the php file name where to insert into the database
+    private static final String REGISTER_URL = "http://www.populisto.com/insert.php";
+
+    public static final String KEY_PHONENUMBER = "phonenumber";
+
+    Button buttonRegister;
+
+    //related to SMS verification
     Button sendBtn;
     EditText txtphoneNo;
 
@@ -36,6 +55,10 @@ public class MainActivity extends Activity {
 
         sendBtn = (Button) findViewById(R.id.btnSendSMS);
         txtphoneNo = (EditText) findViewById(R.id.txtphoneNo);
+
+        buttonRegister = (Button) findViewById(R.id.buttonRegister);
+
+        buttonRegister.setOnClickListener(this);
 
         //  when the form loads, check to see if phoneNo is in there
         SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
@@ -129,6 +152,47 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onClick(View v) {
+        phoneNo = txtphoneNo.getText().toString();
+        if(v== buttonRegister){
+            registerUser();
+        }
+    }
+
+    private void registerUser() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+
+                    }
+
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(KEY_PHONENUMBER, phoneNo);
+                return params;
+            }
+
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this) ;
+        requestQueue.add(stringRequest);
+    }
+
+
+
+
 
     @Override
     protected void onDestroy() {
