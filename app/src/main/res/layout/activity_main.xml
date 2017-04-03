@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="MainActivity">
+    tools:context="com.example.chris.tutorialspoint.MainActivity">
 
     <TextView
         android:id="@+id/textView1"
@@ -38,7 +38,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txtphoneNo"
+        android:id="@+id/editText"
         android:hint="Enter Phone Number"
         android:phoneNumber="true"
         android:textColorHint="#ff87ff09"
