@@ -35,7 +35,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         sendBtn = (Button) findViewById(R.id.btnSendSMS);
-        txtphoneNo = (EditText) findViewById(R.id.editText);
+        txtphoneNo = (EditText) findViewById(R.id.txtphoneNo);
 
         //  when the form loads, check to see if phoneNo is in there
         SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
@@ -100,9 +100,11 @@ public class MainActivity extends Activity {
                     editor.putString("phonenumber", phoneNo);
                     editor.commit();
 
-                    //start next activity
+                    //start next activity, taking the phone number
                     Intent myIntent = new Intent(MainActivity.this, PopulistoContactList.class);
+                    myIntent.putExtra("keyName", phoneNo);
                     MainActivity.this.startActivity(myIntent);
+
                 }
             }
 
