@@ -30,17 +30,20 @@ import com.example.tutorialspoint.R;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity  {
 
-    // this is the php file name where to insert into the database
+    // this is the php file name where to insert into the database, the user's phone number
     private static final String REGISTER_URL = "http://www.populisto.com/insert.php";
 
+    //we are posting phoneNo, which in PHP is phonenumber
     public static final String KEY_PHONENUMBER = "phonenumber";
+
+
+    //related to SMS verification
+    Button btnSendSMS;
 
     Button buttonRegister;
 
-    //related to SMS verification
-    Button sendBtn;
     EditText txtphoneNo;
 
     String phoneNo;
@@ -53,12 +56,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sendBtn = (Button) findViewById(R.id.btnSendSMS);
+        btnSendSMS = (Button) findViewById(R.id.btnSendSMS);
+
+
         txtphoneNo = (EditText) findViewById(R.id.txtphoneNo);
 
-        buttonRegister = (Button) findViewById(R.id.buttonRegister);
+       buttonRegister = (Button) findViewById(R.id.buttonRegister);
 
-        buttonRegister.setOnClickListener(this);
+        //buttonRegister.setOnClickListener(this);
 
         //  when the form loads, check to see if phoneNo is in there
         SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
@@ -68,8 +73,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if ( phoneNoCheck == null || phoneNoCheck.equals("") ) {
 
 
-            sendBtn.setOnClickListener(new View.OnClickListener() {
+            btnSendSMS.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
+                    System.out.println("you clicked it");
                     sendSMSMessage();
                 }
             });
@@ -84,6 +90,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         }
+
+
+        buttonRegister.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                System.out.println("you clicked it");
+                phoneNo = txtphoneNo.getText().toString();
+                registerUser();
+            }
+        });
 
 
     }
@@ -129,6 +144,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     MainActivity.this.startActivity(myIntent);
 
                 }
+
+                else {
+                    Toast.makeText(getApplicationContext(), "Number not correct.", Toast.LENGTH_LONG).show();
+
+                }
             }
 
         };
@@ -153,13 +173,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
+ /*   @Override
     public void onClick(View v) {
         phoneNo = txtphoneNo.getText().toString();
         if(v== buttonRegister){
+            System.out.println("you clicked it");
             registerUser();
         }
-    }
+    }*/
 
     private void registerUser() {
 
