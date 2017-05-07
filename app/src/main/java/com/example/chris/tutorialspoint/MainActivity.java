@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity  {
 
     String phoneNo;
     String origNumber;
+    TextView txtSelectCountry;
 
     private BroadcastReceiver receiver;
 
@@ -62,6 +64,8 @@ public class MainActivity extends AppCompatActivity  {
         txtphoneNo = (EditText) findViewById(R.id.txtphoneNo);
 
        buttonRegister = (Button) findViewById(R.id.buttonRegister);
+
+        txtSelectCountry = (TextView) findViewById(R.id.txtSelectCountry);
 
         //buttonRegister.setOnClickListener(this);
 
@@ -100,8 +104,20 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
+        //when 'Select Country' Text is clicked
+        //load the new activity CountryCodes showing the list of all countries
+        txtSelectCountry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent myIntent = new Intent(MainActivity.this, CountryCodes.class);
+               // myIntent.putExtra("key", value); //Optional parameters
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
 
     }
+
 
 
 

@@ -35,16 +35,6 @@
         <!--android:layout_centerHorizontal="true" />-->
     <!--android:src="@drawable/abc"-->
 
-<!--    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtphoneNo"
-        android:hint="Enter Phone Number"
-        android:phoneNumber="true"
-        android:textColorHint="#ff87ff09"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true" />-->
-
     <!--<EditText-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
@@ -93,4 +83,27 @@
         android:textColorHint="#ff87ff09"
         android:layout_below="@+id/btnSendSMS"
         android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtphoneNo"
+        android:hint="Enter Phone Number"
+        android:phoneNumber="true"
+        android:textColorHint="#ff87ff09"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="57dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="14dp"
+        android:id="@+id/txtSelectCountry"
+        android:text="Select Country"
+        android:layout_alignRight="@+id/txtphoneNo"
+        android:layout_alignEnd="@+id/txtphoneNo"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignStart="@+id/textView1" />
 </RelativeLayout>
