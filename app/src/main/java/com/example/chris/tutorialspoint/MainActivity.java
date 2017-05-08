@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity  {
 
     private BroadcastReceiver receiver;
 
+    TextView txtCountryCode;
+    String CountryCode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +119,11 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
+        txtCountryCode =(TextView) findViewById(R.id.txtCountryCode);
+        Intent myIntent =this.getIntent();
+        //put in the Country code selected by the user in CountryCodes.java
+        CountryCode = myIntent.getStringExtra("CountryCode");
+        txtCountryCode.setText(CountryCode);
     }
 
 

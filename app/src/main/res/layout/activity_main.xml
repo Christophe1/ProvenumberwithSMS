@@ -35,15 +35,7 @@
         <!--android:layout_centerHorizontal="true" />-->
     <!--android:src="@drawable/abc"-->
 
-    <!--<EditText-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/editText2"-->
-        <!--android:layout_below="@+id/editText"-->
-        <!--android:layout_alignLeft="@+id/editText"-->
-        <!--android:layout_alignStart="@+id/editText"-->
-        <!--android:textColorHint="#ff87ff09"-->
-        <!--android:hint="Enter SMS" />-->
+
 
     <EditText
         android:layout_width="wrap_content"
@@ -84,6 +76,16 @@
         android:layout_below="@+id/btnSendSMS"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:hint = "Code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/txtphoneNo"
+        android:layout_alignLeft="@+id/txtSMSMayApply"
+        android:layout_alignStart="@+id/txtSMSMayApply"
+        android:layout_marginBottom="11dp"
+        android:id="@+id/txtCountryCode" />
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,8 +94,9 @@
         android:phoneNumber="true"
         android:textColorHint="#ff87ff09"
         android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="57dp" />
+        android:layout_marginTop="57dp"
+        android:layout_alignLeft="@+id/buttonRegister"
+        android:layout_alignStart="@+id/buttonRegister" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -106,4 +109,6 @@
         android:layout_alignEnd="@+id/txtphoneNo"
         android:layout_alignLeft="@+id/textView1"
         android:layout_alignStart="@+id/textView1" />
+
+
 </RelativeLayout>
