@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity  {
 
             btnSendSMS.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    System.out.println("you clicked it");
+                    System.out.println("you clicked it, send message");
                     sendSMSMessage();
                 }
             });
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity  {
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                System.out.println("you clicked it");
+                System.out.println("you clicked it, register");
                 phoneNo = txtphoneNo.getText().toString();
                 registerUser();
             }
@@ -161,6 +161,9 @@ public class MainActivity extends AppCompatActivity  {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("phonenumber", phoneNo);
                     editor.commit();
+
+                    //Here we want to add the user's phone number to the user table
+                    //using Volley
 
                     //start next activity, taking the phone number
                     Intent myIntent = new Intent(MainActivity.this, PopulistoContactList.class);

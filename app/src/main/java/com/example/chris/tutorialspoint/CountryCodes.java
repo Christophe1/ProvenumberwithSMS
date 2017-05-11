@@ -38,6 +38,7 @@ public class CountryCodes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_country_codes);
         ListView listView=(ListView)findViewById(R.id.listview_country_codes);
+        //for putting into the ListView
         items=new ArrayList<String>();
         //so we can get the code and name of the country
         items2=new ArrayList<String>();
