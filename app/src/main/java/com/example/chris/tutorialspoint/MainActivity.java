@@ -27,17 +27,22 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.tutorialspoint.R;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.tutorialspoint.R.id.txtphoneNoofUser;
 
 public class MainActivity extends AppCompatActivity  {
 
     // this is the php file name where to insert into the database, the user's phone number
     private static final String REGISTER_URL = "http://www.populisto.com/insert.php";
 
-    //we are posting phoneNo, which in PHP is phonenumber
-    public static final String KEY_PHONENUMBER = "phonenumber";
+    //we are posting phoneNoofUser, which in PHP is phonenumber
+    public static final String KEY_PHONENUMBER = "phonenumberofuser";
 
 
     //related to SMS verification
@@ -45,9 +50,9 @@ public class MainActivity extends AppCompatActivity  {
 
     Button buttonRegister;
 
-    EditText txtphoneNo;
+    EditText txtphoneNoofUser;
 
-    String phoneNo;
+    String phoneNoofUser;
     String origNumber;
     TextView txtSelectCountry;
 
@@ -55,6 +60,7 @@ public class MainActivity extends AppCompatActivity  {
 
     TextView txtCountryCode;
     String CountryCode;
+    String phoneNoofUserbeforeE164;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +70,7 @@ public class MainActivity extends AppCompatActivity  {
         btnSendSMS = (Button) findViewById(R.id.btnSendSMS);
 
 
-        txtphoneNo = (EditText) findViewById(R.id.txtphoneNo);
+        txtphoneNoofUser = (EditText) findViewById(R.id.txtphoneNoofUser);
 
        buttonRegister = (Button) findViewById(R.id.buttonRegister);
 
@@ -72,12 +78,12 @@ public class MainActivity extends AppCompatActivity  {
 
         //buttonRegister.setOnClickListener(this);
 
-        //  when the form loads, check to see if phoneNo is in there
+        //  when the form loads, check to see if phoneNoofUser is in there
         SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-        String phoneNoCheck = sharedPreferences.getString("phonenumber","");
+        String phoneNoofUserCheck = sharedPreferences.getString("phonenumberofuser","");
 
         //  if it is not in there, go through verification
-        if ( phoneNoCheck == null || phoneNoCheck.equals("") ) {
+        if ( phoneNoofUserCheck == null || phoneNoofUserCheck.equals("") ) {
 
 
             btnSendSMS.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +98,7 @@ public class MainActivity extends AppCompatActivity  {
         else {
             // if it is registered then start the next activity
             Intent myIntent = new Intent(MainActivity.this, PopulistoContactList.class);
-            myIntent.putExtra("keyName", phoneNoCheck);
+            myIntent.putExtra("keyName", phoneNoofUserCheck);
             MainActivity.this.startActivity(myIntent);
 
 
@@ -102,7 +108,7 @@ public class MainActivity extends AppCompatActivity  {
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 System.out.println("you clicked it, register");
-                phoneNo = txtphoneNo.getText().toString();
+                phoneNoofUser = txtphoneNoofUser.getText().toString();
                 registerUser();
             }
         });
@@ -151,15 +157,15 @@ public class MainActivity extends AppCompatActivity  {
                 origNumber = msg.getOriginatingAddress();
 
                 Toast.makeText(getApplicationContext(), "Originating number" + origNumber, Toast.LENGTH_LONG).show();
-                Toast.makeText(getApplicationContext(), "Sent to number" + phoneNo, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Sent to number" + phoneNoofUser, Toast.LENGTH_LONG).show();
 
                 //when the text message is received, see if originating number matches the
                 //sent to number
-                if (origNumber.equals(phoneNo)) {
+                if (origNumber.equals(phoneNoofUser)) {
                     //save the phone number so this process is skipped in future
                     SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("phonenumber", phoneNo);
+                    editor.putString("phonenumberofuser", phoneNoofUser);
                     editor.commit();
 
                     //Here we want to add the user's phone number to the user table
@@ -167,7 +173,7 @@ public class MainActivity extends AppCompatActivity  {
 
                     //start next activity, taking the phone number
                     Intent myIntent = new Intent(MainActivity.this, PopulistoContactList.class);
-                    myIntent.putExtra("keyName", phoneNo);
+                    myIntent.putExtra("keyName", phoneNoofUser);
                     MainActivity.this.startActivity(myIntent);
 
                 }
@@ -181,15 +187,31 @@ public class MainActivity extends AppCompatActivity  {
         };
         registerReceiver(receiver, filter);
 
-        //this is the number the user enters in the textbox
-        phoneNo = txtphoneNo.getText().toString();
+        //this is the number the user enters in the Phone Number textbox
+        //We need to parse this, to make it into E.164 format
+        phoneNoofUserbeforeE164 = txtphoneNoofUser.getText().toString();
+        phoneNoofUser = String.valueOf(CountryCode) +  String.valueOf(phoneNoofUserbeforeE164);
+
+        //phoneNoofUser = txtphoneNoofUser.getText().toString();
+
+        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+        try {
+            //For the second parameter, CountryCode, put whatever country code the user picks
+            //we pass it through phoneUtil to get rid of first 0 like in +353087 etc
+            Phonenumber.PhoneNumber numberProto = phoneUtil.parse(phoneNoofUser, CountryCode);
+            phoneNoofUser = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.E164);
+            //Since you know the country you can format it as follows:
+            //System.out.println(phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.E164));
+        } catch (NumberParseException e) {
+            System.err.println("NumberParseException was thrown: " + e.toString());
+        }
 
         //this is the text of the SMS received
         String message = "Verification test code. Please ignore this message. Thank you.";
 
         try {
             SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(phoneNo, null, message, null, null);
+            smsManager.sendTextMessage(phoneNoofUser, null, message, null, null);
             Toast.makeText(getApplicationContext(), "SMS sent.", Toast.LENGTH_LONG).show();
 
         }
@@ -200,14 +222,14 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
- /*   @Override
+
     public void onClick(View v) {
-        phoneNo = txtphoneNo.getText().toString();
+        phoneNoofUser = txtphoneNoofUser.getText().toString();
         if(v== buttonRegister){
             System.out.println("you clicked it");
             registerUser();
         }
-    }*/
+    }
 
     private void registerUser() {
 
@@ -229,7 +251,7 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put(KEY_PHONENUMBER, phoneNo);
+                params.put(KEY_PHONENUMBER, phoneNoofUser);
                 return params;
             }
 
