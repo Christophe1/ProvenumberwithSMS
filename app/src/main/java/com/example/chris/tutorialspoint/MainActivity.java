@@ -123,6 +123,8 @@ public class MainActivity extends AppCompatActivity  {
                 public void onClick(View view) {
                     System.out.println("you clicked it, send message");
                     sendSMSMessage();
+                    //get all the contacts on the user's phone
+                    getPhoneContacts();
 
                 }
             });
@@ -207,9 +209,9 @@ public class MainActivity extends AppCompatActivity  {
                     //using Volley
                     registerUser();
                     //get all the contacts on the user's phone
-                    getPhoneContacts();
+                    //getPhoneContacts();
                     //convert all contacts on the user's phone to JSON
-                    convertNumberstoJSON();
+                    //convertNumberstoJSON();
 
                     //start next activity, taking the phone number
                     Intent myIntent = new Intent(MainActivity.this, PopulistoContactList.class);
@@ -300,6 +302,7 @@ public class MainActivity extends AppCompatActivity  {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put(KEY_PHONENUMBER_USER, phoneNoofUser);
                 return params;
+
             }
 
         };
@@ -322,7 +325,7 @@ public class MainActivity extends AppCompatActivity  {
 
 
     //get the names and phone numbers of all contacts in phone book, take out duplicates
-    protected void getPhoneContacts() {
+    private void getPhoneContacts() {
 //          we have this here to avoid cursor errors
         if (cursor != null) {
             cursor.moveToFirst();
@@ -450,12 +453,15 @@ public class MainActivity extends AppCompatActivity  {
 
         } catch (Exception e) {
             e.printStackTrace();
-            cursor.close();
+//            cursor.close();
         } finally {
 //                if (cursor != null) {
-            cursor.close();
+//            cursor.close();
 //                }
         }
+
+        //convert all contacts on the user's phone to JSON
+     //   convertNumberstoJSON();
         ;
 // cursor.close();
 //return null;
