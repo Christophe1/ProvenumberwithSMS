@@ -49,16 +49,6 @@
         android:id="@+id/editText2" />
 
     <Button
-        android:text="Register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/editText2"
-        android:layout_alignRight="@+id/editText2"
-        android:layout_alignEnd="@+id/editText2"
-        android:layout_marginBottom="32dp"
-        android:id="@+id/buttonRegister" />
-
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Send Sms"
@@ -67,20 +57,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="26dp" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtSMSMayApply"
-        android:hint="Carrier SMS Charges may apply."
-        android:textColorHint="#ff87ff09"
-        android:layout_below="@+id/btnSendSMS"
-        android:layout_centerHorizontal="true" />
-
     <TextView
         android:hint = "Code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/txtphoneNo"
+        android:layout_alignBottom="@+id/txtphoneNoofUser"
         android:layout_alignLeft="@+id/txtSMSMayApply"
         android:layout_alignStart="@+id/txtSMSMayApply"
         android:layout_marginBottom="11dp"
@@ -89,7 +70,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txtphoneNo"
+        android:id="@+id/txtphoneNoofUser"
         android:hint="Enter Phone Number"
         android:phoneNumber="true"
         android:textColorHint="#ff87ff09"
@@ -105,10 +86,30 @@
         android:layout_marginTop="14dp"
         android:id="@+id/txtSelectCountry"
         android:text="Select Country"
-        android:layout_alignRight="@+id/txtphoneNo"
-        android:layout_alignEnd="@+id/txtphoneNo"
+        android:layout_alignRight="@+id/txtphoneNoofUser"
+        android:layout_alignEnd="@+id/txtphoneNoofUser"
         android:layout_alignLeft="@+id/textView1"
         android:layout_alignStart="@+id/textView1" />
+
+    <Button
+        android:text="Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonRegister"
+        android:layout_above="@+id/editText2"
+        android:layout_alignRight="@+id/editText2"
+        android:layout_alignEnd="@+id/editText2" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtSMSMayApply"
+        android:hint="Carrier SMS Charges may apply."
+        android:textColorHint="#ff87ff09"
+        android:layout_alignBaseline="@+id/editText2"
+        android:layout_alignBottom="@+id/editText2"
+        android:layout_alignRight="@+id/txtphoneNoofUser"
+        android:layout_alignEnd="@+id/txtphoneNoofUser" />
 
 
 </RelativeLayout>
