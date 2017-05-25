@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <drawable name="color_one">#FF9DEFDA</drawable>
+    <drawable name="color_two">#FF9DEFDA</drawable>
+    <drawable name="color_three">#ffcbcbcb</drawable>
+    <drawable name="color_four">#ff0000</drawable>
+    <drawable name="color_five">#ff0000</drawable>
+    <drawable name="color_six">#ffffffff</drawable>
 </resources>
