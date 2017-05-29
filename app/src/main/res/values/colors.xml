@@ -6,4 +6,12 @@
     <drawable name="color_four">#ff0000</drawable>
     <drawable name="color_five">#ff0000</drawable>
     <drawable name="color_six">#ffffffff</drawable>
+    <color name="genre">#666666</color>
+    <color name="year">#888888</color>
+    <color name="list_divider">#d9d9d9</color>
+    <color name="list_row_start_color">#ffffff</color>
+    <color name="list_row_end_color">#ffffff</color>
+    <color name="list_row_hover_start_color">#ebeef0</color>
+    <color name="list_row_hover_end_color">#ebeef0</color>
+
 </resources>
