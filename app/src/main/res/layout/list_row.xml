@@ -23,6 +23,7 @@
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
         android:textSize="17dp"
+        android:textColor="#000000"
         android:textStyle="bold" />
 
     <!-- name -->
@@ -33,6 +34,7 @@
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toRightOf="@+id/category"
         android:textSize="17dp"
+        android:textColor="#000000"
         android:textStyle="bold" />
 
     <!-- phone -->
@@ -43,6 +45,7 @@
         android:layout_below="@id/category"
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/thumbnail"
+        android:textColor="#000000"
         android:textSize="15dp" />
 
     <!-- comment -->
@@ -53,6 +56,7 @@
         android:layout_below="@id/phone"
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/thumbnail"
+        android:textColor="#000000"
         android:textSize="15dp" />
 
     <!-- Genre -->
